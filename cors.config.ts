@@ -1,4 +1,3 @@
-
 // CORS Options
 const whitelist = [process.env.BASE_URL, "http://localhost:3000"];
 
@@ -14,4 +13,4 @@ const corsOptions = {
   exposedHeaders: ["User-Count", "Company-Count"],
 };
 
-export default corsOptions
+export default corsOptions;

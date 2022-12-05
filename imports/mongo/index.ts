@@ -1,3 +1,3 @@
-import {mongoManager} from "./MongoManager"
+import { mongoManager } from "./MongoManager";
 
-export {mongoManager}
+export { mongoManager };

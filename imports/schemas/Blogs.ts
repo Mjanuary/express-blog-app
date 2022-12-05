@@ -1,26 +1,16 @@
-import mongoose from 'mongoose';
-// import userStatusEnums from '../api/enums/userStatusEnums';
-
-const genderEnum = [ 'male', 'female', 'unknown' ];
-// const userStatus = Object.values(userStatusEnums);
+import mongoose from "mongoose";
 
 const BlogSchema = new mongoose.Schema({
-    title: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-    },
-    cover: {
-      type: String,
-    },
-    middleName: String,
-    gender: {
-      type: String,
-      enum: genderEnum,
-    },
-
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+  },
+  cover: {
+    type: String,
+  },
   createdAt: Date,
 });
 
