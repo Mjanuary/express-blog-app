@@ -1,6 +1,6 @@
 import express from "express";
 import { check } from "express-validator";
-import { AllBlogs, createBlogs } from "../controller/BlogsContoller";
+import { AllBlogs, createBlogs } from "../controller/Blog.contoller";
 
 const router = express.Router();
 

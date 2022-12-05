@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
 
-const BlogSchema = new mongoose.Schema({
-  title: {
+const UsersSchema = new mongoose.Schema({
+  username: {
     type: String,
     required: true,
   },
-  description: {
+  email: {
     type: String,
   },
-  cover: {
+  names: {
     type: String,
   },
   createdAt: Date,
 });
 
-export default BlogSchema;
+UsersSchema.index({ email: 1 });
+
+export default UsersSchema;
