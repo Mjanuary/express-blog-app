@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Blogs from "../src/models/Blog.model";
+import Blogs from "../models/Blog.model";
 
 export const AllBlogs = async (req: Request, res: Response) => {
   try {

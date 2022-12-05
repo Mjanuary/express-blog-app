@@ -5,8 +5,8 @@ import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
 
-import { mongoManager } from "./imports/mongo";
-import { router } from "./routers/router";
+import { mongoManager } from "./src/mongo";
+import { router } from "./src/routers/router";
 import corsOptions from "./cors.config";
 
 dotenv.config();
@@ -16,7 +16,6 @@ const port = process.env.PORT;
 
 app.use(helmet());
 mongoManager.connect();
-
 
 app.use(cors(corsOptions));
 
@@ -51,7 +50,7 @@ app.use(router);
 // app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log({port});
-  
+  console.log({ port });
+
   console.log(`🚀: Server is running at https://localhost:${port}`);
 });

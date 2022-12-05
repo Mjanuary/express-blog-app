@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { BlogStatus } from "../enums";
-import SchemasTypes from "./schema.enum";
+import SchemasTypes from "../enums/schema.enum";
 
 const BlogSchema = new mongoose.Schema({
   title: {

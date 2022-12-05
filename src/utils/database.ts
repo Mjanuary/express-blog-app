@@ -6,9 +6,4 @@ export const connectionPromise = async (mongoUri: any) => {
   Logger.info(
     `Create database connection to local server: ${mongoUri || MONGO_URL}`
   );
-  //   return database.connect({
-  //     connectionStringSource: "DIRECT_URI",
-  //     mongoUri: mongoUri || MONGO_URL,
-  //     database: "local",
-  //   });
 };
