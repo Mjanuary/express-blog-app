@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
-import Blogs from "../src/models/Blog.model";
+import { BlogModel } from "../models";
 
-export const AllBlogs = async (req: Request, res: Response) => {
+export const AllComments = async (req: Request, res: Response) => {
   try {
-    let data = await Blogs.find();
+    let data = await BlogModel.find();
 
     return res.send(data);
   } catch (error) {}
 };
 
-export const createBlogs = async (req: Request, res: Response) => {
+export const createComment = async (req: Request, res: Response) => {
   try {
     const { cover, description, title } = req.body;
 
-    let data = await Blogs.create({
+    let data = await BlogModel.create({
       cover,
       createdAt: new Date(),
       description,

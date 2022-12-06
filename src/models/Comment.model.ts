@@ -1,10 +1,8 @@
 import mongoose from "mongoose";
-import SchemasTypes from "../enums/schema.enum";
-import CollectionEnum from "../enums/Collection.enum";
+import { SchemasTypes, CollectionEnum } from "../enums";
+import { CommentSchema } from "../schemas";
 
-import CommentSchema from "../schemas/Comment.schema";
-
-export default mongoose.model(
+export const CommentModel = mongoose.model(
   SchemasTypes.Comments,
   CommentSchema,
   CollectionEnum.comments

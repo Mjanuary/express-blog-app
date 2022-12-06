@@ -17,4 +17,4 @@ const CommentSchema = new mongoose.Schema({
   createdAt: Date,
 });
 
-export default CommentSchema;
+export { CommentSchema };

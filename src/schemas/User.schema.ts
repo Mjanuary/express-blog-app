@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UsersSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
@@ -14,6 +14,6 @@ const UsersSchema = new mongoose.Schema({
   createdAt: Date,
 });
 
-UsersSchema.index({ email: 1 });
+UserSchema.index({ email: 1 });
 
-export default UsersSchema;
+export { UserSchema };

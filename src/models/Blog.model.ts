@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import SchemasTypes from "../enums/schema.enum";
-import CollectionEnum from "../enums/Collection.enum";
+import { SchemasTypes, CollectionEnum } from "../enums";
 
-import BlogSchema from "../schemas/Blogs.schema";
+import { BlogSchema } from "../schemas";
 
-export default mongoose.model(
+export const BlogModel = mongoose.model(
   SchemasTypes.Blog,
   BlogSchema,
   CollectionEnum.blogs

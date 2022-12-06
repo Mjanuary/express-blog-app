@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import { BlogStatus } from "../enums";
-import SchemasTypes from "../enums/schema.enum";
+import { BlogStatus, SchemasTypes } from "../enums";
 
 const BlogSchema = new mongoose.Schema({
   title: {
@@ -51,4 +50,4 @@ const BlogSchema = new mongoose.Schema({
 BlogSchema.index({ title: 1 });
 BlogSchema.index({ tags: 1 });
 
-export default BlogSchema;
+export { BlogSchema };
