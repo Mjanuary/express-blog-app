@@ -5,6 +5,7 @@ import { AllBlogs, createBlogs } from "../controller/Blog.controller";
 const router = express.Router();
 
 router.get("/", AllBlogs);
+
 router.post(
   "/",
   [

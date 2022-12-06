@@ -7,7 +7,7 @@ import helmet from "helmet";
 
 import { mongoManager } from "./src/mongo";
 import { router } from "./src/routers/router";
-import corsOptions from "./cors.config";
+import corsOptions from "./src/utils/cors.config";
 
 dotenv.config();
 

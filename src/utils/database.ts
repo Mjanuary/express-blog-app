@@ -1,4 +1,4 @@
-import { Logger } from "../../logger";
+import { Logger } from "./logger";
 
 const { MONGO_URL } = process.env;
 

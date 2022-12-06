@@ -2,7 +2,7 @@ import { Document, Schema } from "mongoose";
 import { BlogStatus } from "../enums";
 
 export interface BlogInterface extends Document {
-  _id: Schema.Types.ObjectId;
+  _id?: Schema.Types.ObjectId;
   title: string;
   tags: string[];
   description: string;
