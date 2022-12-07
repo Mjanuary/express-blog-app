@@ -6,7 +6,7 @@ export interface BlogInterface extends Document {
   title: string;
   tags: string[];
   description: string;
-  cover: string;
+  cover_url: string;
   createdBy: Schema.Types.ObjectId;
   status: BlogStatus;
   reactions: {

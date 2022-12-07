@@ -30,10 +30,10 @@ export const AllBlogs = async (req: Request, res: Response) => {
 
 export const createBlogs = async (req: Request, res: Response) => {
   try {
-    const { cover, description, title } = req.body;
+    const { cover_url, description, title } = req.body;
 
     let data = await BlogModel.create({
-      cover,
+      cover_url,
       createdAt: new Date(),
       description,
       title,

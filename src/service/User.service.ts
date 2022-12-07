@@ -38,4 +38,12 @@ export class UserService {
       throw e;
     }
   };
+
+  static deleteUser = async (userId: any) => {
+    try {
+      return await UserModel.deleteOne({ _id: userId });
+    } catch (e) {
+      throw e;
+    }
+  };
 }

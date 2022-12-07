@@ -11,10 +11,10 @@ export const AllComments = async (req: Request, res: Response) => {
 
 export const createComment = async (req: Request, res: Response) => {
   try {
-    const { cover, description, title } = req.body;
+    const { cover_url, description, title } = req.body;
 
     let data = await BlogModel.create({
-      cover,
+      cover_url,
       createdAt: new Date(),
       description,
       title,

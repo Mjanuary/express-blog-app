@@ -1,6 +1,6 @@
 import express from "express";
 import { check } from "express-validator";
-import { createUser, AllUsers, updateUser } from "../controller";
+import { createUser, AllUsers, updateUser, deleteUser } from "../controller";
 
 const router = express.Router();
 
@@ -25,5 +25,11 @@ router.put(
     check("names").isString().notEmpty().withMessage("Names is required"),
   ],
   updateUser
+);
+
+router.delete(
+  "/:userId",
+  [check("userId").notEmpty().withMessage("UserId is is required")],
+  deleteUser
 );
 export default router;

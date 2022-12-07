@@ -15,7 +15,7 @@ const BlogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  cover: {
+  cover_url: {
     type: String,
   },
   createdBy: {

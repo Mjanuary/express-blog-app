@@ -47,8 +47,16 @@ export const updateUser = async (req: Request, res: Response) => {
 
     return res.send(data);
   } catch (error) {
-    console.log(error);
+    errorHandler(res, error);
+  }
+};
 
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    let data = await UserService.deleteUser(new Types.ObjectId(userId));
+    return res.send(data);
+  } catch (error) {
     errorHandler(res, error);
   }
 };
