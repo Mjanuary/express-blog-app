@@ -9,10 +9,9 @@ router.get("/", AllBlogs);
 router.post(
   "/",
   [
-    check("title").isString(),
-    check("description").isString(),
-    check("cover").isString(),
-    check("createdBy").isString(),
+    check("username").isString().withMessage("Username is required"),
+    check("email").isString(),
+    check("names").isString(),
   ],
   createBlogs
 );

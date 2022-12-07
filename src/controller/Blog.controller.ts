@@ -1,10 +1,27 @@
 import { Request, Response } from "express";
+import { SortByEnum } from "../enums";
 import { BlogModel } from "../models";
+import { BlogService } from "../service";
 
 export const AllBlogs = async (req: Request, res: Response) => {
   try {
-    let data = await BlogModel.find();
-    return res.send(data);
+    const {
+      page = 1,
+      limit = 25,
+      sortBy = SortByEnum.ACCEDING,
+      withCreators = false,
+      createdBy,
+    } = req.query;
+
+    const envelopeActivities = await BlogService.getBlogs({
+      page: +page,
+      limit: +limit,
+      sortBy: SortByEnum.ACCEDING,
+      withCreators: !!withCreators,
+      createdBy: typeof createdBy === "string" ? createdBy : undefined,
+    });
+
+    return res.send(envelopeActivities);
   } catch (error) {}
 };
 
