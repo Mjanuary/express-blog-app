@@ -1,13 +1,13 @@
-import { Document, Schema } from "mongoose";
+import { Schema } from "mongoose";
 import { BlogStatus } from "../enums";
 
-export interface BlogInterface extends Document {
-  _id?: Schema.Types.ObjectId;
+export interface BlogInterface {
+  _id?: Schema.Types.ObjectId | any;
   title: string;
   tags: string[];
   description: string;
   cover_url: string;
-  createdBy: Schema.Types.ObjectId;
+  createdBy: Schema.Types.ObjectId | any;
   status: BlogStatus;
   reactions: {
     likes: Schema.Types.ObjectId[];

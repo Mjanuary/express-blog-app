@@ -1,8 +1,9 @@
-import { throws } from "assert";
 import { Request, Response } from "express";
-import { SortByEnum } from "../enums";
+import { Types } from "mongoose";
+import { BlogStatus, SortByEnum } from "../enums";
 import { BlogModel } from "../models";
 import { BlogService } from "../service";
+import { errorHandler } from "../utils/error";
 
 export const AllBlogs = async (req: Request, res: Response) => {
   try {
@@ -24,23 +25,30 @@ export const AllBlogs = async (req: Request, res: Response) => {
 
     return res.send(envelopeActivities);
   } catch (error) {
-    throw new Error("");
+    errorHandler(res, error);
   }
 };
 
 export const createBlogs = async (req: Request, res: Response) => {
   try {
-    const { cover_url, description, title } = req.body;
+    const { cover_url, description, title, createdBy, tags } = req.body;
 
-    let data = await BlogModel.create({
-      cover_url,
+    let data = await BlogService.createBlog({
+      cover_url: cover_url,
       createdAt: new Date(),
       description,
       title,
+      createdBy: new Types.ObjectId(createdBy),
+      tags: tags || [],
+      status: BlogStatus.ACTIVE,
+      reactions: {
+        dislikes: [],
+        likes: [],
+      },
     });
 
     return res.send(data);
   } catch (error) {
-    throw new Error("");
+    errorHandler(res, error);
   }
 };

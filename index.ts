@@ -19,14 +19,13 @@ mongoManager.connect();
 
 app.use(cors(corsOptions));
 
-// HTTP request logger with Morgan
+// logger with Morgan
 app.use(
   morgan("combined", {
     skip: (req, res) => res.statusCode < 400,
   })
 );
 
-// Parse the body request to json
 app.use(bodyParser.json({ limit: "25mb" }));
 
 app.get("/", (req: Request, res: Response) =>
@@ -34,20 +33,6 @@ app.get("/", (req: Request, res: Response) =>
 );
 
 app.use(router);
-
-// const errorHandler = (
-//   err: any,
-//   req: Request,
-//   res: Response,
-//   next: NextFunction
-// ) => {
-//   if (res.headersSent) {
-//     return next(err);
-//   }
-//   return res.status(400).send({ message: err.message });
-// };
-
-// app.use(errorHandler);
 
 app.listen(port, () => {
   console.log({ port });

@@ -30,21 +30,11 @@ router.get(
 router.post(
   "/",
   [
-    check("title")
-      .isString()
-      .withMessage("value must be an integer between 1 and 100"),
-    check("description")
-      .isString()
-      .withMessage("value must be an integer between 1 and 100"),
-    check("cover_url")
-      .isString()
-      .withMessage("value must be an integer between 1 and 100"),
-    check("createdBy")
-      .isString()
-      .withMessage("value must be an integer between 1 and 100"),
-    check("createdBy")
-      .isString()
-      .withMessage("value must be an integer between 1 and 100"),
+    check("title").isString().withMessage("a title is required"),
+    check("description").isString().withMessage("Description is required"),
+    check("cover_url").isString().withMessage("image cover is required"),
+    check("createdBy").isString().withMessage("createdBy is required"),
+    check("tags").isArray().withMessage("tags must be array of strings"),
   ],
   createBlogs
 );

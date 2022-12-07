@@ -1,7 +1,9 @@
+import { UserModel } from "./../models/User.model";
 import { Schema, Types } from "mongoose";
-import { SortByEnum } from "../enums";
+import { CollectionEnum, SortByEnum } from "../enums";
 import { BlogModel } from "./../models/Blog.model";
 import { getPage } from "../utils/functions";
+import { BlogInterface } from "../interfaces";
 
 export class BlogService {
   static sortBlog(sortBy: SortByEnum) {
@@ -48,10 +50,17 @@ export class BlogService {
         pipelines.push(
           {
             $lookup: {
-              from: "users",
+              from: CollectionEnum.users,
               localField: "createdBy",
               foreignField: "_id",
               as: "author",
+              pipeline: [
+                {
+                  $project: {
+                    names: 1,
+                  },
+                },
+              ],
             },
           },
           {
@@ -65,6 +74,40 @@ export class BlogService {
 
       pipelines.push(
         { $sort: sort },
+        {
+          $unset: ["description"],
+        },
+        {
+          $project: {
+            title: 1,
+            tags: 1,
+            createdAt: 1,
+            cover_url: 1,
+            status: 1,
+            author: 1,
+            likes: 1,
+            totalLikes: {
+              $cond: {
+                if: { $isArray: "$reactions.likes" },
+                then: { $size: "$reactions.likes" },
+                else: 0,
+              },
+            },
+            totalDislikes: {
+              $cond: {
+                if: { $isArray: "$reactions.dislikes" },
+                then: { $size: "$reactions.dislikes" },
+                else: 0,
+              },
+            },
+          },
+        },
+        {
+          $unwind: {
+            path: "$reactions.likes",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
         {
           $facet: {
             metadata: [{ $count: "total" }],
@@ -88,6 +131,24 @@ export class BlogService {
         data: blogsList?.data,
         page,
       };
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  static createBlog = async (blog: BlogInterface) => {
+    try {
+      let checkUserExist = await UserModel.find({ _id: blog.createdBy });
+      if (checkUserExist.length <= 0)
+        throw new Error("Please provide a valid createdBy value");
+
+      let checkBlogExistByTitle = await BlogModel.find({ title: blog.title });
+      if (checkBlogExistByTitle.length >= 1)
+        throw new Error(
+          "This title has been used before, please pick another title"
+        );
+
+      return await BlogModel.create(blog);
     } catch (e) {
       throw e;
     }
