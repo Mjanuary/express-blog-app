@@ -4,48 +4,59 @@ import { BlogModel } from "./../models/Blog.model";
 import { getPage } from "../utils/functions";
 
 export class BlogService {
-  // constructor(parameters) {
-  // }
+  static sortBlog(sortBy: SortByEnum) {
+    let sort;
+    switch (sortBy) {
+      case SortByEnum.ACCEDING:
+        sort = { createdAt: 1 };
+        break;
+      case SortByEnum.DESCENDING:
+        sort = { createdAt: -1 };
+        break;
+      default:
+        sort = { createdAt: -1 };
+    }
+
+    return sort;
+  }
 
   static getBlogs = async (query: {
     page: number;
     limit: number;
     sortBy: SortByEnum;
-    withCreators?: boolean;
+    withAuthor?: boolean;
     createdBy?: string;
-  }) => {
+  }): Promise<{
+    total: number;
+    data: any[];
+    page: number;
+  }> => {
     try {
-      //   const EnvelopeActivity = BlogModel();
+      const { limit, page, sortBy, withAuthor, createdBy } = query;
+      const skip = getPage(page, limit);
+      const sort = BlogService.sortBlog(sortBy);
 
-      //   EnvelopeService.validateGetEnvelopeActivitiesFileds(query);
+      const pipelines: any[] = [];
 
-      const { limit, page, sortBy, withCreators, createdBy } = query;
-      let skip = getPage(page, limit);
-      // const sort = EnvelopeService.prepareEnvelopeActivitySortBy(sortBy);
+      if (createdBy) {
+        pipelines.push({
+          $match: { createdBy: new Types.ObjectId(createdBy) },
+        });
+      }
 
-      const conditions: { createdBy?: any } = {
-        // envelopeId: Types.ObjectId(envelopeId),
-      };
-
-      // if (createdBy) {
-      //  conditions.createdBy = Types.ObjectId(createdBy);
-      // }
-
-      const pipelines: any[] = [{ $match: conditions }];
-
-      if (withCreators) {
+      if (withAuthor) {
         pipelines.push(
           {
             $lookup: {
               from: "users",
               localField: "createdBy",
               foreignField: "_id",
-              as: "profile",
+              as: "author",
             },
           },
           {
             $unwind: {
-              path: "$profile",
+              path: "$author",
               preserveNullAndEmptyArrays: true,
             },
           }
@@ -53,6 +64,7 @@ export class BlogService {
       }
 
       pipelines.push(
+        { $sort: sort },
         {
           $facet: {
             metadata: [{ $count: "total" }],
@@ -74,6 +86,7 @@ export class BlogService {
       return {
         total: blogsList?.total || 0,
         data: blogsList?.data,
+        page,
       };
     } catch (e) {
       throw e;

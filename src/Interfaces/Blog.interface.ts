@@ -14,4 +14,5 @@ export interface BlogInterface extends Document {
     dislikes: Schema.Types.ObjectId[];
   };
   createdAt: Date;
+  __v?: 0;
 }

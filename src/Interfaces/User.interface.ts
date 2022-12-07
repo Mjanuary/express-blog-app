@@ -1,9 +1,10 @@
 import { Document, Schema } from "mongoose";
 
-export interface UserInterface extends Document {
-  _id?: Schema.Types.ObjectId;
+export interface UserInterface {
+  _id?: Schema.Types.ObjectId | any;
   username: string;
   email: string;
   names: string;
-  createdAt: Date;
+  createdAt?: any;
+  __v?: 0;
 }

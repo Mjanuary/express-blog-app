@@ -6,4 +6,5 @@ export interface CommentInterface extends Document {
   blogId: Schema.Types.ObjectId;
   comment: string;
   createdAt: Date;
+  __v?: 0;
 }

@@ -20,7 +20,7 @@ router.get(
       .toInt()
       .default(10)
       .withMessage("value must be an integer between 1 and 100"),
-    check("withCreators").optional().isBoolean().toBoolean(),
+    check("withAuthor").optional().isBoolean().toBoolean(),
     check("userId").optional().isMongoId(),
     check("sortBy").optional().isIn(Object.values(SortByEnum)),
   ],

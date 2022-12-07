@@ -1,3 +1,4 @@
+import { throws } from "assert";
 import { Request, Response } from "express";
 import { SortByEnum } from "../enums";
 import { BlogModel } from "../models";
@@ -8,8 +9,8 @@ export const AllBlogs = async (req: Request, res: Response) => {
     const {
       page = 1,
       limit = 25,
-      sortBy = SortByEnum.ACCEDING,
-      withCreators = false,
+      // sortBy = SortByEnum.ACCEDING, // Sort is not yet implemented
+      withAuthor = false,
       createdBy,
     } = req.query;
 
@@ -17,12 +18,14 @@ export const AllBlogs = async (req: Request, res: Response) => {
       page: +page,
       limit: +limit,
       sortBy: SortByEnum.ACCEDING,
-      withCreators: !!withCreators,
+      withAuthor: !!withAuthor,
       createdBy: typeof createdBy === "string" ? createdBy : undefined,
     });
 
     return res.send(envelopeActivities);
-  } catch (error) {}
+  } catch (error) {
+    throw new Error("");
+  }
 };
 
 export const createBlogs = async (req: Request, res: Response) => {
@@ -37,5 +40,7 @@ export const createBlogs = async (req: Request, res: Response) => {
     });
 
     return res.send(data);
-  } catch (error) {}
+  } catch (error) {
+    throw new Error("");
+  }
 };
