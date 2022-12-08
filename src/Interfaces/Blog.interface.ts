@@ -15,4 +15,6 @@ export interface BlogInterface {
   };
   createdAt: Date;
   __v?: 0;
+  totalLikes?: number;
+  totalDislikes?: number;
 }

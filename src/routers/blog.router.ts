@@ -1,3 +1,4 @@
+import { deleteBlog, updateBlog } from "./../controller/Blog.controller";
 import express from "express";
 import { check } from "express-validator";
 import { AllBlogs, createBlogs } from "../controller/Blog.controller";
@@ -37,6 +38,25 @@ router.post(
     check("tags").isArray().withMessage("tags must be array of strings"),
   ],
   createBlogs
+);
+
+router.put(
+  "/",
+  [
+    check("blogId").isString().withMessage("blogId required"),
+    check("title").isString().withMessage("a title is required"),
+    check("description").isString().withMessage("Description is required"),
+    check("cover_url").isString().withMessage("image cover is required"),
+    check("createdBy").isString().withMessage("createdBy is required"),
+    check("tags").isArray().withMessage("tags must be array of strings"),
+  ],
+  updateBlog
+);
+
+router.delete(
+  "/:blogId",
+  [check("blogId").isString().withMessage("blogId required")],
+  deleteBlog
 );
 
 export default router;

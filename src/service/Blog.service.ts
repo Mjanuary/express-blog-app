@@ -1,6 +1,6 @@
 import { UserModel } from "./../models/User.model";
 import { Schema, Types } from "mongoose";
-import { CollectionEnum, SortByEnum } from "../enums";
+import { BlogLikeDislikeEnum, CollectionEnum, SortByEnum } from "../enums";
 import { BlogModel } from "./../models/Blog.model";
 import { getPage } from "../utils/functions";
 import { BlogInterface } from "../interfaces";
@@ -153,4 +153,16 @@ export class BlogService {
       throw e;
     }
   };
+
+  static deleteBlog = async (blogId: any) => {};
+
+  static updateBlog = async () => {};
+
+  static getBlogDetails = async (blogId: any) => {};
+
+  static likeDislikeBlog = async (
+    blogID: any,
+    userId: any,
+    status: BlogLikeDislikeEnum
+  ) => {};
 }

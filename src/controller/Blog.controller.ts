@@ -52,3 +52,25 @@ export const createBlogs = async (req: Request, res: Response) => {
     errorHandler(res, error);
   }
 };
+
+export const updateBlog = async (req: Request, res: Response) => {
+  try {
+    const { cover_url, description, title, createdBy, tags, blogId } = req.body;
+    let data = await BlogService.updateBlog();
+
+    return res.send(data);
+  } catch (error) {
+    errorHandler(res, error);
+  }
+};
+
+export const deleteBlog = async (req: Request, res: Response) => {
+  try {
+    const { blogId } = req.params;
+    let data = await BlogService.deleteBlog(new Types.ObjectId(blogId));
+
+    return res.send(data);
+  } catch (error) {
+    errorHandler(res, error);
+  }
+};

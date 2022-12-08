@@ -5,9 +5,9 @@ import morgan from "morgan";
 import cors from "cors";
 import helmet from "helmet";
 
-import { mongoManager } from "./src/mongo";
-import { router } from "./src/routers/router";
 import corsOptions from "./src/utils/cors.config";
+import { router } from "./src/routers/router";
+import { mongoManager } from "./src/mongo";
 
 dotenv.config();
 
@@ -19,7 +19,6 @@ mongoManager.connect();
 
 app.use(cors(corsOptions));
 
-// logger with Morgan
 app.use(
   morgan("combined", {
     skip: (req, res) => res.statusCode < 400,
@@ -29,13 +28,11 @@ app.use(
 app.use(bodyParser.json({ limit: "25mb" }));
 
 app.get("/", (req: Request, res: Response) =>
-  res.send("Express + TypeScript Server")
+  res.send("Express + TypeScript + Testing")
 );
 
 app.use(router);
 
 app.listen(port, () => {
-  console.log({ port });
-
   console.log(`🚀: Server is running at https://localhost:${port}`);
 });
