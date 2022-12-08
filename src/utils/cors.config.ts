@@ -10,7 +10,6 @@ const corsOptions = {
     }
   },
   credentials: false,
-  exposedHeaders: ["User-Count", "Company-Count"],
 };
 
 export default corsOptions;
