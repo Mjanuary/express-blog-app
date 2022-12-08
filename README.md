@@ -7,7 +7,7 @@ the app is blogging consist
 - Comments
 - Users
 
-Stack: `express` `Typescript` `jest`
+Stack: `express` `Typescript` `jest` `mongoDB`
 
 ---
 
