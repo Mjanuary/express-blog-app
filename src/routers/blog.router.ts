@@ -1,7 +1,13 @@
-import { deleteBlog, updateBlog } from "./../controller/Blog.controller";
 import express from "express";
 import { check } from "express-validator";
-import { AllBlogs, createBlogs } from "../controller/Blog.controller";
+import {
+  AllBlogs,
+  createBlogs,
+  blogDetails,
+  deleteBlog,
+  updateBlog,
+  likeDislikeBlog,
+} from "../controller/Blog.controller";
 import { SortByEnum } from "../enums";
 
 const router = express.Router();
@@ -53,10 +59,26 @@ router.put(
   updateBlog
 );
 
+router.put(
+  "/reaction",
+  [
+    check("blogId").isString().withMessage("blogId required"),
+    check("userId").isString().withMessage("a title is required"),
+    check("action").isString().withMessage("status is required"),
+  ],
+  likeDislikeBlog
+);
+
 router.delete(
   "/:blogId",
   [check("blogId").isString().withMessage("blogId required")],
   deleteBlog
+);
+
+router.get(
+  "/:blogId",
+  [check("blogId").isString().withMessage("blogId required")],
+  blogDetails
 );
 
 export default router;

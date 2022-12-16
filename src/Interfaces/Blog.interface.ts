@@ -8,12 +8,12 @@ export interface BlogInterface {
   description: string;
   cover_url: string;
   createdBy: Schema.Types.ObjectId | any;
-  status: BlogStatus;
-  reactions: {
+  status?: BlogStatus;
+  reactions?: {
     likes: Schema.Types.ObjectId[];
     dislikes: Schema.Types.ObjectId[];
   };
-  createdAt: Date;
+  createdAt?: Date;
   __v?: 0;
   totalLikes?: number;
   totalDislikes?: number;

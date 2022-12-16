@@ -154,15 +154,172 @@ export class BlogService {
     }
   };
 
-  static deleteBlog = async (blogId: any) => {};
+  static deleteBlog = async (blogId: any) => {
+    try {
+      return await BlogModel.deleteOne({ _id: blogId });
+    } catch (e) {
+      throw e;
+    }
+  };
 
-  static updateBlog = async () => {};
+  static updateBlog = async (blog: BlogInterface) => {
+    try {
+      let checkUserExist = await UserModel.find({ _id: blog.createdBy });
 
-  static getBlogDetails = async (blogId: any) => {};
+      if (checkUserExist.length <= 0)
+        throw new Error("Please provide a valid createdBy value");
+
+      let checkBlogExistByTitle = await BlogModel.find({
+        title: blog.title,
+        _id: { $ne: blog._id },
+      });
+      if (checkBlogExistByTitle.length >= 1)
+        throw new Error(
+          "This title has been used before, please pick another title"
+        );
+
+      const {
+        cover_url,
+        createdAt,
+        createdBy,
+        description,
+        status,
+        tags,
+        title,
+        _id,
+      } = blog;
+
+      return await BlogModel.updateOne(
+        { _id },
+        {
+          $set: {
+            cover_url,
+            createdAt,
+            createdBy,
+            description,
+            status,
+            tags,
+            title,
+          },
+        }
+      );
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  static getBlogDetails = async (blogId: any) => {
+    try {
+      const pipelines: any[] = [
+        {
+          $match: { _id: blogId },
+        },
+        {
+          $lookup: {
+            from: CollectionEnum.users,
+            localField: "createdBy",
+            foreignField: "_id",
+            as: "author",
+            pipeline: [
+              {
+                $project: {
+                  names: 1,
+                },
+              },
+            ],
+          },
+        },
+        {
+          $unwind: {
+            path: "$author",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $project: {
+            title: 1,
+            tags: 1,
+            createdAt: 1,
+            cover_url: 1,
+            status: 1,
+            author: 1,
+            likes: 1,
+            totalLikes: {
+              $cond: {
+                if: { $isArray: "$reactions.likes" },
+                then: { $size: "$reactions.likes" },
+                else: 0,
+              },
+            },
+            totalDislikes: {
+              $cond: {
+                if: { $isArray: "$reactions.dislikes" },
+                then: { $size: "$reactions.dislikes" },
+                else: 0,
+              },
+            },
+          },
+        },
+        {
+          $unwind: {
+            path: "$reactions.likes",
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+      ];
+
+      const getBlogs = await BlogModel.aggregate(pipelines);
+
+      if (getBlogs.length <= 0) throw new Error("No blog found!");
+
+      return getBlogs[0];
+    } catch (e) {
+      throw e;
+    }
+  };
 
   static likeDislikeBlog = async (
-    blogID: any,
+    blogId: any,
     userId: any,
     status: BlogLikeDislikeEnum
-  ) => {};
+  ) => {
+    try {
+      const pipelines: any[] = [
+        {
+          $match: { _id: blogId },
+        },
+        // {
+        //   $pullAll: {
+        //     "reaction.likes": "2324242",
+        //   },
+        // },
+        {
+          $set: {
+            // reaction: {
+            "reaction.dislikes": {
+              $filter: {
+                input: "$dislikes",
+                as: "dislikes",
+                cond: { $eq: ["$dislikes", "2324242"] }, // your condition expression
+              },
+            },
+            // },
+          },
+        },
+        // {
+        //   $push: {
+        //     "$reactions.likes": "janvier",
+        //   },
+        // },
+      ];
+
+      const getBlogs = await BlogModel.aggregate(pipelines);
+
+      if (getBlogs.length <= 0) throw new Error("No blog found!");
+
+      return getBlogs[0];
+    } catch (e) {
+      throw e;
+    }
+  };
 }

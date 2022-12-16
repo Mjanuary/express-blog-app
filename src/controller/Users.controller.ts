@@ -45,7 +45,12 @@ export const updateUser = async (req: Request, res: Response) => {
       _id: new Types.ObjectId(userId),
     });
 
-    return res.send(data);
+    return res.send({
+      msg:
+        data.modifiedCount >= 1
+          ? "User has been updated successfully"
+          : "No change made",
+    });
   } catch (error) {
     errorHandler(res, error);
   }
